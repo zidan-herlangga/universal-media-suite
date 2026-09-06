@@ -1,0 +1,95 @@
+name: Build Universal Media Suite
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            spec: UniversalMediaSuite.win.spec
+            artifact: ums-windows
+          - os: ubuntu-latest
+            spec: UniversalMediaSuite.linux.spec
+            artifact: ums-linux
+          - os: macos-latest
+            spec: UniversalMediaSuite.macos.spec
+            artifact: ums-macos
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-build.txt
+
+      - name: Download FFmpeg static build (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          curl -L -o ffmpeg.zip "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip"
+          unzip -o -q ffmpeg.zip
+          find ffmpeg-master-latest-win64-gpl -name ffmpeg.exe -print -quit | while read -r f; do cp "$f" ./ffmpeg.exe; done
+          ls -lh ffmpeg.exe
+
+      - name: Build with PyInstaller
+        run: pyinstaller --noconfirm "${{ matrix.spec }}"
+
+      - name: Create macOS DMG
+        if: runner.os == 'macOS'
+        run: |
+          hdiutil create -volname "UniversalMediaSuite" -srcfolder dist/UniversalMediaSuite.app -ov -format UDZO dist/UniversalMediaSuite.dmg
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          if-no-files-found: warn
+          path: |
+            dist/UniversalMediaSuite_Setup.exe
+            dist/UniversalMediaSuite.AppImage
+            dist/UniversalMediaSuite.dmg
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+
+      - name: List assembled artifacts
+        run: ls -lh assets
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: assets/*
+          fail_on_unmatched_files: false
+          generate_release_notes: true
