@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dokumentasi & Distribusi &bull; Universal Media & Document Suite</title>
-  <!-- Tailwind CSS CDN -->
+  <title>Universal Media &amp; Document Suite — Distribusi &amp; Dokumentasi</title>
+  <meta name="description" content="Utilitas desktop lokal untuk konversi foto RAW, video, audio, dokumen, dan unduhan media." />
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,467 +22,362 @@
     }
   </script>
   <style>
-    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #090d13; }
     ::-webkit-scrollbar-thumb { background: #21262d; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #30363d; }
+    details > summary { list-style: none; cursor: pointer; }
+    details > summary::-webkit-details-marker { display: none; }
   </style>
 </head>
 <body class="bg-[#090d13] text-[#c9d1d9] font-sans antialiased selection:bg-[#1f6feb] selection:text-white">
 
-  <!-- Top Navigation Bar -->
+  <!-- ═══════════════ HEADER ═══════════════ -->
   <header class="border-b border-[#21262d] bg-[#0d1117] sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-      <div class="flex items-center gap-3">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-sm bg-[#58a6ff] shadow-[0_0_8px_#58a6ff]"></span>
         <span class="font-mono font-bold text-white text-sm tracking-tight">ums-suite</span>
         <span class="text-[11px] font-mono px-2 py-0.5 rounded border border-[#30363d] bg-[#161b22] text-[#8b949e]">v1.0.0</span>
-        <span class="hidden sm:inline-block text-xs font-mono text-[#8b949e] border-l border-[#21262d] pl-3">Offline Core Utility</span>
-      </div>
-      <div class="flex items-center gap-3 text-xs font-mono">
-        <a href="#unduh" class="bg-[#238636] hover:bg-[#2ea043] text-white px-3.5 py-1.5 rounded font-semibold transition">
-          Unduh Binary
-        </a>
-        <button id="mobile-menu-btn" onclick="toggleSidebar()" class="md:hidden border border-[#30363d] p-1.5 rounded text-[#8b949e] hover:text-white">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 16 16"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75Zm0 5a.75.75 0 0 1 .75-.75h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1-.75-.75Z"></path></svg>
-        </button>
+      </a>
+      <div class="flex items-center gap-4 text-xs font-mono">
+        <nav class="hidden sm:flex items-center gap-5 text-[#8b949e]">
+          <a href="#unduh" data-i18n="hero.cta.download" class="hover:text-white transition">Unduh Aplikasi</a>
+          <a href="docs.html" data-i18n="nav.docs" class="hover:text-white transition">Dokumentasi</a>
+        </nav>
+        <div class="flex items-center border border-[#30363d] rounded p-0.5 text-[11px] font-semibold">
+          <button data-lang-btn="id" class="px-2.5 py-0.5 rounded transition">ID</button>
+          <button data-lang-btn="en" class="px-2.5 py-0.5 rounded transition">EN</button>
+        </div>
       </div>
     </div>
   </header>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row gap-8 pt-6 pb-20">
-    
-    <!-- Sidebar Navigation (Desktop Sticky / Mobile Drawer) -->
-    <aside id="sidebar" class="hidden md:block w-full md:w-64 shrink-0 md:sticky md:top-20 md:self-start max-h-[calc(100vh-6rem)] overflow-y-auto text-xs font-mono pr-2">
-      <div class="space-y-6">
-        <div>
-          <span class="text-[#8b949e] uppercase font-bold tracking-wider text-[10px] block mb-2">Mulai Cepat</span>
-          <ul class="space-y-1.5 border-l border-[#21262d] pl-3">
-            <li><a href="#unduh" class="text-white hover:text-[#58a6ff] block transition">Distribusi Binary</a></li>
-            <li><a href="#arsitektur" class="text-[#8b949e] hover:text-white block transition">Prinsip Arsitektur</a></li>
-            <li><a href="#verifikasi" class="text-[#8b949e] hover:text-white block transition">Checksum SHA-256</a></li>
-          </ul>
-        </div>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
-        <div>
-          <span class="text-[#8b949e] uppercase font-bold tracking-wider text-[10px] block mb-2">Dokumentasi Modul</span>
-          <ul class="space-y-1.5 border-l border-[#21262d] pl-3">
-            <li><a href="#docs-foto" class="text-[#8b949e] hover:text-white block transition">01. Image & Kamera RAW</a></li>
-            <li><a href="#docs-video" class="text-[#8b949e] hover:text-white block transition">02. Video Transcoder</a></li>
-            <li><a href="#docs-audio" class="text-[#8b949e] hover:text-white block transition">03. Audio Stream Extractor</a></li>
-            <li><a href="#docs-dokumen" class="text-[#8b949e] hover:text-white block transition">04. Dokumen & PDF Tools</a></li>
-            <li><a href="#docs-downloader" class="text-[#8b949e] hover:text-white block transition">05. Network Downloader</a></li>
-          </ul>
-        </div>
+    <!-- ═══════════════ HERO ═══════════════ -->
+    <section class="pt-16 pb-12 text-center">
+      <div class="inline-block px-3 py-1 mb-5 text-[11px] font-mono rounded-full bg-[#1f6feb]/10 text-[#58a6ff] border border-[#1f6feb]/30">
+        <span data-i18n="hero.badge">Rilis Resmi v1.0.0</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-bold text-white tracking-tight mb-4" data-i18n="hero.title">Universal Media &amp; Document Suite</h1>
+      <p class="text-sm sm:text-base text-[#8b949e] max-w-2xl mx-auto leading-relaxed" data-i18n="hero.subtitle">Utilitas desktop lokal serba bisa yang memproses foto RAW, video, audio, dokumen, dan unduhan media — tanpa mengirim data Anda ke internet.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+        <a href="#unduh" class="bg-[#238636] hover:bg-[#2ea043] text-white text-sm font-semibold px-6 py-3 rounded transition font-mono w-full sm:w-auto">
+          <span data-i18n="hero.cta.download">Unduh Aplikasi</span> ↓
+        </a>
+        <a href="docs.html" class="border border-[#30363d] hover:border-[#58a6ff] hover:text-white text-[#8b949e] text-sm font-semibold px-6 py-3 rounded transition font-mono w-full sm:w-auto" data-i18n="hero.cta.docs">Baca Dokumentasi</a>
+      </div>
 
-        <div>
-          <span class="text-[#8b949e] uppercase font-bold tracking-wider text-[10px] block mb-2">Spesifikasi & Panduan</span>
-          <ul class="space-y-1.5 border-l border-[#21262d] pl-3">
-            <li><a href="#matriks-os" class="text-[#8b949e] hover:text-white block transition">Matriks Kompatibilitas</a></li>
-            <li><a href="#troubleshooting" class="text-[#8b949e] hover:text-white block transition">Pemecahan Masalah</a></li>
-          </ul>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-14 max-w-3xl mx-auto text-left">
+        <div class="border border-[#21262d] rounded-lg bg-[#161b22] p-4">
+          <span class="block text-[11px] font-mono text-[#8b949e]" data-i18n="hero.stat.1.t">Isolasi Operasi</span>
+          <span class="font-semibold text-[#3fb950] text-sm" data-i18n="hero.stat.1.v">100% Offline Core</span>
+        </div>
+        <div class="border border-[#21262d] rounded-lg bg-[#161b22] p-4">
+          <span class="block text-[11px] font-mono text-[#8b949e]" data-i18n="hero.stat.2.t">Backend Engine</span>
+          <span class="font-semibold text-white text-sm" data-i18n="hero.stat.2.v">FFmpeg + LibRaw</span>
+        </div>
+        <div class="border border-[#21262d] rounded-lg bg-[#161b22] p-4">
+          <span class="block text-[11px] font-mono text-[#8b949e]" data-i18n="hero.stat.3.t">Interaksi Berkas</span>
+          <span class="font-semibold text-white text-sm" data-i18n="hero.stat.3.v">Drag-and-Drop (DND)</span>
+        </div>
+        <div class="border border-[#21262d] rounded-lg bg-[#161b22] p-4">
+          <span class="block text-[11px] font-mono text-[#8b949e]" data-i18n="hero.stat.4.t">Penanganan Error</span>
+          <span class="font-semibold text-white text-sm" data-i18n="hero.stat.4.v">Log File Otomatis</span>
         </div>
       </div>
-    </aside>
+    </section>
 
-    <!-- Main Content Area -->
-    <div class="flex-1 min-w-0">
+    <!-- ═══════════════ DOWNLOAD ═══════════════ -->
+    <section id="unduh" class="border border-[#30363d] rounded-xl bg-[#161b22] p-6 sm:p-8 mb-16">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#21262d]">
+        <div>
+          <div class="inline-block px-2.5 py-0.5 mb-2 text-[10px] font-mono rounded bg-[#238636]/10 text-[#3fb950] border border-[#238636]/30" data-i18n="dl.badge">Rilis Terbaru</div>
+          <h2 class="text-2xl font-bold text-white mb-2" data-i18n="dl.title">Unduh untuk Platform Anda</h2>
+          <p class="text-xs text-[#8b949e] leading-relaxed" data-i18n="dl.note">Unduhan disajikan langsung dari GitHub Release. Simpan file lalu jalankan.</p>
+        </div>
 
-      <!-- Section: Download Hub -->
-      <section id="unduh" class="border border-[#30363d] rounded-md bg-[#161b22] p-6 sm:p-8 mb-10">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 pb-6 border-b border-[#21262d]">
+        <div class="w-full lg:w-80 shrink-0">
+          <div class="grid grid-cols-3 gap-1 bg-[#0d1117] p-1 rounded-lg border border-[#30363d] text-[11px] font-mono text-center mb-3">
+            <button onclick="setPlatform('win')" id="tab-win" class="py-2 rounded font-semibold transition" data-i18n="dl.win.name">Windows</button>
+            <button onclick="setPlatform('linux')" id="tab-linux" class="py-2 rounded text-[#8b949e] hover:text-white transition" data-i18n="dl.linux.name">Linux</button>
+            <button onclick="setPlatform('mac')" id="tab-mac" class="py-2 rounded text-[#8b949e] hover:text-white transition" data-i18n="dl.mac.name">macOS</button>
+          </div>
+
+          <div class="flex items-center justify-between px-1 mb-1 text-[11px] font-mono">
+            <span class="text-[#58a6ff]" id="detect-badge"><span data-i18n="dl.platform.detect">Platform terdeteksi</span> ●</span>
+            <span class="text-[#8b949e]" id="dl-size">± 164 MB</span>
+          </div>
+
+          <a id="btn-download" href="https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite_Setup.exe" download class="w-full flex items-center justify-center gap-2 bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-semibold py-3 px-4 rounded-lg transition font-mono">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 16 16"><path d="M.5 9.9a.75.75 0 0 1 .75.75v2.6c0 .41.34.75.75.75h12c.41 0 .75-.34.75-.75v-2.6a.75.75 0 0 1 1.5 0v2.6A2.25 2.25 0 0 1 13.5 15h-12A2.25 2.25 0 0 1 0 12.75v-2.6a.75.75 0 0 1 .75-.75Z"></path><path d="M7.47 10.53a.75.75 0 0 0 1.06 0l3.25-3.25a.75.75 0 1 0-1.06-1.06L8.75 8.19V1.75a.75.75 0 0 0-1.5 0v6.44L5.28 6.22a.75.75 0 0 0-1.06 1.06l3.25 3.25Z"></path></svg>
+            <span id="label-download">Download .EXE</span>
+          </a>
+
+          <p class="text-[10px] font-mono text-[#8b949e] text-center mt-2" id="dl-spec">Windows 10 / 11 · 64-bit</p>
+          <p class="text-[10px] font-mono text-[#8b949e] text-center" data-i18n="dl.auto">Dari peramban Anda. Bisa diganti kapan saja.</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3 pt-5 text-xs font-mono">
+        <span class="text-[#8b949e]" data-i18n="dl.checksum">Periksa checksum SHA-256</span>
+        <code id="inline-cmd" class="flex-1 min-w-[220px] bg-[#0d1117] border border-[#21262d] rounded px-3 py-2 text-[#79c0ff] text-[11px] truncate">Get-FileHash .\UniversalMediaSuite_Setup.exe -Algorithm SHA256</code>
+        <button onclick="copyChecksum()" class="text-xs bg-[#21262d] hover:bg-[#30363d] text-white px-3 py-2 rounded transition font-mono" data-i18n="verify.copy">Salin Perintah</button>
+      </div>
+    </section>
+
+    <!-- ═══════════════ FEATURES ═══════════════ -->
+    <section class="mb-16">
+      <h2 class="text-center text-sm font-mono font-bold uppercase tracking-wider text-white mb-8" data-i18n="feat.title">Mengapa Memilih Suite Ini?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22]">
+          <div class="text-[#58a6ff] font-mono text-lg mb-2">01</div>
+          <h3 class="font-bold text-white mb-1.5 font-mono text-sm" data-i18n="feat.1.t">Isolasi I/O Lokal</h3>
+          <p class="text-[#8b949e] leading-relaxed" data-i18n="feat.1.d">Semua konversi berjalan di perangkat Anda. Dokumen, foto, dan media tidak pernah dikirim ke server awan mana pun.</p>
+        </div>
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22]">
+          <div class="text-[#58a6ff] font-mono text-lg mb-2">02</div>
+          <h3 class="font-bold text-white mb-1.5 font-mono text-sm" data-i18n="feat.2.t">Worker Threads Mandiri</h3>
+          <p class="text-[#8b949e] leading-relaxed" data-i18n="feat.2.d">Proses berat dijalankan pada tread terpisah sehingga antarmuka tetap responsif dan tidak pernah membeku.</p>
+        </div>
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22]">
+          <div class="text-[#58a6ff] font-mono text-lg mb-2">03</div>
+          <h3 class="font-bold text-white mb-1.5 font-mono text-sm" data-i18n="feat.3.t">Ketahanan Batch (Fault Tolerant)</h3>
+          <p class="text-[#8b949e] leading-relaxed" data-i18n="feat.3.d">File yang korup tidak menghentikan antrean. Setiap kegagalan dicatat ke file log lokal untuk audit mudah.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════ MODULES ═══════════════ -->
+    <section class="mb-16">
+      <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-white mb-1" data-i18n="mod.title">Modul Utama</h2>
+      <p class="text-xs text-[#8b949e] mb-6" data-i18n="mod.subtitle">Lima modul terintegrasi dalam satu aplikasi desktop.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22] flex flex-col">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-sm font-bold text-white font-mono" data-i18n="mod.1.t">Foto &amp; Kamera RAW</h3>
+            <span class="shrink-0 ml-3 text-[10px] font-mono text-[#8b949e] border border-[#21262d] rounded px-2 py-0.5 bg-[#0d1117]" data-i18n="mod.1.e">Pillow + rawpy (LibRaw)</span>
+          </div>
+          <p class="text-xs text-[#8b949e] leading-relaxed flex-1" data-i18n="mod.1.d">Baca file mentah kamera profesional (CR2, NEF, ARW, DNG, dll) lalu konversi massal ke JPG, PNG, WEBP, atau PDF dengan opsi resize.</p>
+        </div>
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22] flex flex-col">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-sm font-bold text-white font-mono" data-i18n="mod.2.t">Video Transcoder</h3>
+            <span class="shrink-0 ml-3 text-[10px] font-mono text-[#8b949e] border border-[#21262d] rounded px-2 py-0.5 bg-[#0d1117]" data-i18n="mod.2.e">FFmpeg CLI Pipeline</span>
+          </div>
+          <p class="text-xs text-[#8b949e] leading-relaxed flex-1" data-i18n="mod.2.d">Perkecil resolusi ratusan video sekaligus dengan preset 1080p/720p/480p/360p atau dimensi custom, tanpa merusak rasio aspek.</p>
+        </div>
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22] flex flex-col">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-sm font-bold text-white font-mono" data-i18n="mod.3.t">Ekstraktor Audio</h3>
+            <span class="shrink-0 ml-3 text-[10px] font-mono text-[#8b949e] border border-[#21262d] rounded px-2 py-0.5 bg-[#0d1117]" data-i18n="mod.3.e">FFmpeg Demuxer</span>
+          </div>
+          <p class="text-xs text-[#8b949e] leading-relaxed flex-1" data-i18n="mod.3.d">Ekstrak trek audio dari video ke MP3, AAC, M4A, WAV, FLAC, atau OGG dengan bitrate hingga 320 kbps.</p>
+        </div>
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22] flex flex-col">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-sm font-bold text-white font-mono" data-i18n="mod.4.t">Dokumen &amp; PDF</h3>
+            <span class="shrink-0 ml-3 text-[10px] font-mono text-[#8b949e] border border-[#21262d] rounded px-2 py-0.5 bg-[#0d1117]" data-i18n="mod.4.e">Win32 COM / LibreOffice / pypdf</span>
+          </div>
+          <p class="text-xs text-[#8b949e] leading-relaxed flex-1" data-i18n="mod.4.d">Konversi dokumen Office, gabung &amp; pisah PDF, dan ekstrak teks — sepenuhnya lokal.</p>
+        </div>
+        <div class="border border-[#30363d] rounded-lg p-5 bg-[#161b22] flex flex-col">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-sm font-bold text-white font-mono" data-i18n="mod.5.t">Media Downloader</h3>
+            <span class="shrink-0 ml-3 text-[10px] font-mono text-[#8b949e] border border-[#21262d] rounded px-2 py-0.5 bg-[#0d1117]" data-i18n="mod.5.e">yt-dlp + FFmpeg</span>
+          </div>
+          <p class="text-xs text-[#8b949e] leading-relaxed flex-1" data-i18n="mod.5.d">Unduh video/audio dari YouTube, TikTok, Instagram, X, dan SoundCloud langsung ke folder Anda.</p>
+        </div>
+        <a href="docs.html" class="border border-dashed border-[#30363d] rounded-lg p-5 bg-[#161b22]/50 flex items-center justify-center text-[#58a6ff] hover:border-[#58a6ff] hover:bg-[#1f6feb]/10 transition text-xs font-mono" data-i18n="mod.more">Baca dokumentasi lengkap →</a>
+      </div>
+    </section>
+
+    <!-- ═══════════════ MATRIX ═══════════════ -->
+    <section class="border border-[#30363d] rounded-xl bg-[#161b22] overflow-hidden mb-16">
+      <div class="px-5 py-3 border-b border-[#21262d] bg-[#0d1117] flex items-center justify-between">
+        <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-white" data-i18n="matrix.title">Matriks Kompatibilitas Sistem Operasi</h3>
+        <span class="text-[11px] font-mono text-[#8b949e]" data-i18n="matrix.subtitle">Rancangan lintas platform</span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs font-mono border-collapse min-w-[640px]">
+          <thead>
+            <tr class="border-b border-[#21262d] text-[#8b949e] bg-[#0d1117]">
+              <th class="px-5 py-3" data-i18n="matrix.c0">Komponen Arsitektur</th>
+              <th class="px-5 py-3" data-i18n="matrix.c1">Windows (x64)</th>
+              <th class="px-5 py-3" data-i18n="matrix.c2">Linux (x86_64)</th>
+              <th class="px-5 py-3" data-i18n="matrix.c3">macOS</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#21262d]">
+            <tr>
+              <td class="px-5 py-3 text-[#8b949e]" data-i18n="matrix.r1">Format Distribusi</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r1.w">Setup.exe / Portable</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r1.linux">.AppImage / Standalone</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r1.mac">.DMG / .app Bundle</td>
+            </tr>
+            <tr>
+              <td class="px-5 py-3 text-[#8b949e]" data-i18n="matrix.r2">Kebutuhan FFmpeg</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r2.w">Bundled (otomatis ikut)</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r2.linux">Paket sistem (apt install ffmpeg)</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r2.mac">Homebrew / ikut aplikasi</td>
+            </tr>
+            <tr>
+              <td class="px-5 py-3 text-[#8b949e]" data-i18n="matrix.r3">Engine Dokumen Office</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r3.w">MS Office COM Dispatch</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r3.linux">LibreOffice Headless</td>
+              <td class="px-5 py-3 text-white" data-i18n="matrix.r3.mac">LibreOffice Headless</td>
+            </tr>
+            <tr>
+              <td class="px-5 py-3 text-[#8b949e]" data-i18n="matrix.r4">Buka Folder Hasil</td>
+              <td class="px-5 py-3 text-[#79c0ff]" data-i18n="matrix.r4.w">os.startfile(dir)</td>
+              <td class="px-5 py-3 text-[#79c0ff]" data-i18n="matrix.r4.linux">xdg-open [dir]</td>
+              <td class="px-5 py-3 text-[#79c0ff]" data-i18n="matrix.r4.mac">open [dir]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══════════════ VERIFY & TROUBLESHOOT ═══════════════ -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-16 text-xs">
+      <div class="border border-[#30363d] rounded-xl bg-[#161b22] p-6">
+        <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-white mb-1" data-i18n="verify.title">Verifikasi Integritas Binary</h3>
+        <span class="text-[10px] font-mono text-[#58a6ff]" id="verify-tag">Windows PowerShell</span>
+        <p class="text-[#8b949e] mt-2 leading-relaxed" data-i18n="verify.desc">Bandingkan nilai checksum SHA-256 sebelum menjalankan file hasil unduhan untuk memastikan integritas rilis.</p>
+      </div>
+
+      <div class="border border-[#30363d] rounded-xl bg-[#161b22] p-6">
+        <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-white mb-3" data-i18n="help.title">Pemecahan Masalah</h3>
+        <div class="space-y-3 font-mono text-[11px] text-[#8b949e]">
+          <div class="border-b border-[#21262d] pb-2">
+            <span class="text-white font-semibold" data-i18n="help.1.t">Windows SmartScreen Block</span>
+            <p class="mt-0.5" data-i18n="help.1.d">Peringatan muncul karena binary dikompilasi independen (belum ditandatangani sertifikat EV berbayar). Klik "More info" lalu pilih "Run anyway".</p>
+          </div>
+          <div class="border-b border-[#21262d] pb-2">
+            <span class="text-white font-semibold" data-i18n="help.2.t">Linux — Izin Eksekusi</span>
+            <p class="mt-0.5" data-i18n="help.2.d">Jika AppImage tidak merespons, buka terminal dan tambahkan izin eksekusi dengan perintah di bawah.</p>
+            <code class="block mt-1 bg-[#0d1117] border border-[#21262d] rounded px-2 py-1 text-[#79c0ff]">chmod +x ./UniversalMediaSuite.AppImage</code>
+          </div>
           <div>
-            <div class="inline-block px-2.5 py-0.5 mb-2 text-[10px] font-mono rounded bg-[#1f6feb]/10 text-[#58a6ff] border border-[#1f6feb]/30">
-              Binary Resmi Rilis v1.0.0
-            </div>
-            <h1 class="text-2xl font-bold text-white mb-2">Universal Media & Document Suite</h1>
-            <p class="text-xs text-[#8b949e] max-w-xl leading-relaxed">
-              Utilitas mandiri tanpa telemetri. Memproses ratusan file secara paralel pada memori lokal komputer tanpa transfer data keluar jaringan.
-            </p>
-          </div>
-
-          <!-- Multi-Platform Picker -->
-          <div class="w-full lg:w-72 shrink-0 space-y-2.5">
-            <div class="grid grid-cols-3 gap-1 bg-[#0d1117] p-1 rounded border border-[#30363d] text-[11px] font-mono text-center">
-              <button onclick="setPlatform('win')" id="tab-win" class="py-1 rounded bg-[#21262d] text-white font-semibold transition">Windows</button>
-              <button onclick="setPlatform('linux')" id="tab-linux" class="py-1 rounded text-[#8b949e] hover:text-white transition">Linux</button>
-              <button onclick="setPlatform('mac')" id="tab-mac" class="py-1 rounded text-[#8b949e] hover:text-white transition">macOS</button>
-            </div>
-
-            <a id="btn-download" href="https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite_Setup.exe" download class="w-full flex items-center justify-center gap-2 bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-semibold py-2.5 px-4 rounded transition font-mono">
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 16 16"><path d="M.5 9.9a.75.75 0 0 1 .75.75v2.6c0 .41.34.75.75.75h12c.41 0 .75-.34.75-.75v-2.6a.75.75 0 0 1 1.5 0v2.6A2.25 2.25 0 0 1 13.5 15h-12A2.25 2.25 0 0 1 0 12.75v-2.6a.75.75 0 0 1 .75-.75Z"></path><path d="M7.47 10.53a.75.75 0 0 0 1.06 0l3.25-3.25a.75.75 0 1 0-1.06-1.06L8.75 8.19V1.75a.75.75 0 0 0-1.5 0v6.44L5.28 6.22a.75.75 0 0 0-1.06 1.06l3.25 3.25Z"></path></svg>
-              <span id="label-download">Download .EXE</span>
-            </a>
-            
-            <p id="target-spec" class="text-[11px] font-mono text-[#8b949e] text-center">Windows 10 / 11 (64-bit Architecture)</p>
+            <span class="text-white font-semibold" data-i18n="help.3.t">macOS — Gatekeeper Quarantine</span>
+            <p class="mt-0.5" data-i18n="help.3.d">Jika timbul pesan "App is damaged and cannot be opened", hapus atribut karantina melalui Terminal.</p>
+            <code class="block mt-1 bg-[#0d1117] border border-[#21262d] rounded px-2 py-1 text-[#79c0ff]">xattr -cr /Applications/UniversalMediaSuite.app</code>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 text-xs font-mono">
-          <div>
-            <span class="block text-[#8b949e]">Isolasi Operasi</span>
-            <span class="font-semibold text-[#3fb950]">100% Offline Core</span>
-          </div>
-          <div>
-            <span class="block text-[#8b949e]">Backend Engine</span>
-            <span class="font-semibold text-white">FFmpeg + LibRaw</span>
-          </div>
-          <div>
-            <span class="block text-[#8b949e]">Interaksi Berkas</span>
-            <span class="font-semibold text-white">Drag-and-Drop (DND)</span>
-          </div>
-          <div>
-            <span class="block text-[#8b949e]">Penanganan Error</span>
-            <span class="font-semibold text-white">Log File Otomatis</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section: Architectural Principles -->
-      <section id="arsitektur" class="mb-12">
-        <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-white mb-4 pb-2 border-b border-[#21262d]">
-          Prinsip Arsitektur Perangkat Lunak
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-          <div class="border border-[#30363d] rounded p-4 bg-[#161b22]">
-            <h3 class="font-bold text-white mb-1.5 font-mono">Isolasi I/O Lokal</h3>
-            <p class="text-[#8b949e] leading-relaxed">
-              Seluruh algoritma konversi berjalan pada subsistem OS lokal. Berkas perusahaan, rekam medis, atau dokumen bertanda tangan digital tidak pernah dikirim ke infrastruktur awan mana pun.
-            </p>
-          </div>
-          <div class="border border-[#30363d] rounded p-4 bg-[#161b22]">
-            <h3 class="font-bold text-white mb-1.5 font-mono">Worker Threads Mandiri</h3>
-            <p class="text-[#8b949e] leading-relaxed">
-              Eksekusi tugas I/O berat dialihkan ke <em>daemon thread</em> terpisah (`threading.Thread`). Antarmuka pengguna (UI) CustomTkinter dijamin bebas dari kondisi <em>hang/freeze</em>.
-            </p>
-          </div>
-          <div class="border border-[#30363d] rounded p-4 bg-[#161b22]">
-            <h3 class="font-bold text-white mb-1.5 font-mono">Ketahanan Batch (Fault Tolerant)</h3>
-            <p class="text-[#8b949e] leading-relaxed">
-              Jika berkas ke-42 dari 500 file corrupt, antrean konversi tidak berhenti tiba-tiba. File yang gagal akan dicatat secara mendalam pada file teks log lokal untuk audit pengguna.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section: Comprehensive Module Documentation -->
-      <section class="space-y-10 mb-12">
-        <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-white mb-2 pb-2 border-b border-[#21262d]">
-          Dokumentasi Teknis Modul
-        </h2>
-
-        <!-- DOCS 01: Foto & RAW -->
-        <article id="docs-foto" class="border border-[#30363d] rounded bg-[#161b22] p-5 text-xs">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-white font-mono">01. Image & Camera RAW Pipeline</h3>
-            <span class="font-mono text-[#8b949e] text-[11px]">Engine: Pillow + rawpy (LibRaw)</span>
-          </div>
-          <p class="text-[#8b949e] mb-4 leading-relaxed">
-            Modul ini menangani ekstraksi data piksel mentah (*bayer pattern*) dari sensor kamera digital profesional tanpa melewati kompresi JPEG lossy bawaan vendor.
-          </p>
-
-          <div class="space-y-2 mb-4 font-mono text-[11px]">
-            <div class="bg-[#0d1117] p-2.5 rounded border border-[#21262d]">
-              <span class="text-[#8b949e] block mb-1 font-semibold">Format Input yang Didukung:</span>
-              <span class="text-[#79c0ff]">RAW:</span> CR2, CR3, CRW (Canon), NEF, NRW (Nikon), ARW, SRF, SR2 (Sony), RAF (Fuji), ORF (Olympus), RW2 (Panasonic), PEF, PTX (Pentax), DNG (Adobe/ProRAW), X3F (Sigma), ERF, MEF, MOS, KDC, DCR.<br/>
-              <span class="text-[#79c0ff]">Standar:</span> JPG, JPEG, PNG, WEBP, BMP, TIFF, TIF, GIF, ICO, TGA, PPM, PCX, HEIC, HEIF, HIF, PSD.
-            </div>
-            <div class="bg-[#0d1117] p-2.5 rounded border border-[#21262d]">
-              <span class="text-[#8b949e] block mb-1 font-semibold">Format Target Output:</span>
-              JPG, PNG, WEBP, PDF, TIFF, BMP, ICO (Auto-clamped &le; 256px), TGA.
-            </div>
-          </div>
-
-          <div class="text-[#8b949e] space-y-1.5 leading-relaxed">
-            <h4 class="text-white font-semibold font-mono">Logika Internal Penting:</h4>
-            <p>&bull; <strong>Normalisasi Ruang Warna:</strong> Format target tanpa saluran alfa (JPG/BMP/PDF) secara otomatis memicu konversi `img.convert('RGB')` untuk mencegah galat runtime (*RGBA to JPEG crash*).</p>
-            <p>&bull; <strong>Resize Proporsional:</strong> Memanfaatkan interpolasi `Image.Resampling.LANCZOS` agar ketajaman detail garis pada foto resolusi tinggi tetap terjaga saat resolusinya diperkecil.</p>
-          </div>
-        </article>
-
-        <!-- DOCS 02: Video Resizer -->
-        <article id="docs-video" class="border border-[#30363d] rounded bg-[#161b22] p-5 text-xs">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-white font-mono">02. Video Transcoder & Resizer</h3>
-            <span class="font-mono text-[#8b949e] text-[11px]">Engine: FFmpeg CLI Pipeline</span>
-          </div>
-          <p class="text-[#8b949e] mb-4 leading-relaxed">
-            Modul transkoding video massal untuk mereduksi dimensi dan bitrate tanpa merusak rasio aspek gambar (*no stretched visual*).
-          </p>
-
-          <div class="bg-[#0d1117] p-3 rounded border border-[#21262d] font-mono text-[11px] mb-4 text-[#79c0ff] space-y-1">
-            <div><span class="text-[#8b949e]">Filter Graph:</span> scale=w:h:force_original_aspect_ratio=decrease,pad=ceil(iw/2)*2:ceil(ih/2)*2</div>
-            <div><span class="text-[#8b949e]">Video Codec:</span> libx264 (H.264), Pixel Format: yuv420p (Kompatibilitas Global)</div>
-            <div><span class="text-[#8b949e]">Audio Codec:</span> AAC Stereo 128 kbps | Preset: Ultrafast | CRF: 24</div>
-          </div>
-
-          <div class="text-[#8b949e] space-y-1.5 leading-relaxed">
-            <h4 class="text-white font-semibold font-mono">Logika Internal Penting:</h4>
-            <p>&bull; <strong>Proteksi Dimensi Genap (Pad):</strong> Codec H.264 mewajibkan dimensi lebar dan tinggi berupa bilangan genap. Filter `pad=ceil(iw/2)*2:ceil(ih/2)*2` menjamin video ganjil tidak akan memicu galat kompilasi dari FFmpeg.</p>
-            <p>&bull; <strong>Preset Resolusi Siap Pakai:</strong> 1080p FHD (1920x1080), 720p HD (1280x720), 480p SD (854x480), 360p (640x360), dan Manual Custom.</p>
-          </div>
-        </article>
-
-        <!-- DOCS 03: Audio Extractor -->
-        <article id="docs-audio" class="border border-[#30363d] rounded bg-[#161b22] p-5 text-xs">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-white font-mono">03. Audio Stream Extractor & Compressor</h3>
-            <span class="font-mono text-[#8b949e] text-[11px]">Engine: FFmpeg Demuxer</span>
-          </div>
-          <p class="text-[#8b949e] mb-4 leading-relaxed">
-            Ekstraksi audio langsung dari berbagai kontainer video (MP4, MKV, MOV, WebM) dengan memotong stream video secara utuh (`-vn`) guna menghemat siklus CPU.
-          </p>
-
-          <table class="w-full border border-[#21262d] text-left font-mono text-[11px] mb-4">
-            <thead class="bg-[#0d1117] text-[#8b949e] border-b border-[#21262d]">
-              <tr>
-                <th class="p-2">Format Output</th>
-                <th class="p-2">Codec Handler</th>
-                <th class="p-2">Tujuan Penggunaan</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-[#21262d]">
-              <tr>
-                <td class="p-2 text-white">MP3</td>
-                <td class="p-2 text-[#79c0ff]">libmp3lame</td>
-                <td class="p-2 text-[#8b949e]">Distribusi umum & pemutar musik portabel</td>
-              </tr>
-              <tr>
-                <td class="p-2 text-white">AAC / M4A</td>
-                <td class="p-2 text-[#79c0ff]">aac</td>
-                <td class="p-2 text-[#8b949e]">Ekosistem Apple & efisiensi kompresi tinggi</td>
-              </tr>
-              <tr>
-                <td class="p-2 text-white">WAV</td>
-                <td class="p-2 text-[#79c0ff]">pcm_s16le</td>
-                <td class="p-2 text-[#8b949e]">Format mentah uncompressed untuk editing audio</td>
-              </tr>
-              <tr>
-                <td class="p-2 text-white">FLAC</td>
-                <td class="p-2 text-[#79c0ff]">flac</td>
-                <td class="p-2 text-[#8b949e]">Arsip audio kualitas lossless bit-perfect</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <p class="text-[#8b949e] leading-relaxed">
-            Pilihan bitrate variabel/konstan: <strong>320 kbps</strong> (Master/Studio), <strong>192 kbps</strong> (Standar Musik), <strong>128 kbps</strong> (Efisien), dan <strong>64 kbps</strong> (Kompresi rekaman suara / voice note untuk memangkas ukuran hingga 70%).
-          </p>
-        </article>
-
-        <!-- DOCS 04: Dokumen & PDF -->
-        <article id="docs-dokumen" class="border border-[#30363d] rounded bg-[#161b22] p-5 text-xs">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-white font-mono">04. Document & PDF Manipulation</h3>
-            <span class="font-mono text-[#8b949e] text-[11px]">Engine: Win32 COM / LibreOffice / pypdf</span>
-          </div>
-          <p class="text-[#8b949e] mb-4 leading-relaxed">
-            Menghilangkan ketergantungan pada situs web konverter dokumen daring. Menjamin berkas sensitif (kontrak, laporan keuangan, transkrip) tidak bocor ke pihak ketiga.
-          </p>
-
-          <div class="space-y-3 font-mono text-[11px] mb-4">
-            <div class="bg-[#0d1117] p-2.5 rounded border border-[#21262d]">
-              <span class="text-white font-bold block mb-1">A. Konversi Silang Dokumen:</span>
-              <span class="text-[#8b949e]">&bull; Windows:</span> Mengontrol MS Office headless melalui Win32 COM Dispatch (`Word.Application`, `Excel.Application`, `PowerPoint.Application`).<br/>
-              <span class="text-[#8b949e]">&bull; Linux/macOS:</span> Menjalankan automasi headless LibreOffice (`soffice --headless --convert-to`).<br/>
-              <span class="text-[#8b949e]">&bull; PDF to Word:</span> Engine `pdf2docx` mengekstrak tata letak teks, font, dan tabel kembali ke format `.docx`.
-            </div>
-
-            <div class="bg-[#0d1117] p-2.5 rounded border border-[#21262d]">
-              <span class="text-white font-bold block mb-1">B. Multi-Tool PDF (Merge & Split):</span>
-              <span class="text-[#8b949e]">&bull; Merge PDF:</span> Menggabungkan array berkas PDF tak terbatas menjadi satu file terstruktur secara lokal di RAM menggunakan `PdfWriter`.<br/>
-              <span class="text-[#8b949e]">&bull; Split PDF:</span> Mengekstrak halaman menggunakan ekspresi rentang fleksibel, seperti <code class="text-[#79c0ff]">1-5</code>, <code class="text-[#79c0ff]">2,4,7</code>, atau kombinasi keduanya.
-            </div>
-          </div>
-        </article>
-
-        <!-- DOCS 05: Downloader -->
-        <article id="docs-downloader" class="border border-[#30363d] rounded bg-[#161b22] p-5 text-xs">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-sm font-bold text-white font-mono">05. Network Media Stream Downloader</h3>
-            <span class="font-mono text-[#8b949e] text-[11px]">Engine: yt-dlp + FFmpeg Post-processor</span>
-          </div>
-          <p class="text-[#8b949e] mb-4 leading-relaxed">
-            Mengunduh konten multimedia publik dari ribuan platform daring (YouTube, TikTok tanpa tanda air, Instagram Reels, X/Twitter, SoundCloud) secara langsung tanpa perantara situs downloader pihak ketiga yang penuh adware.
-          </p>
-
-          <div class="bg-[#0d1117] p-3 rounded border border-[#21262d] font-mono text-[11px] mb-4 text-[#8b949e] space-y-1.5">
-            <div><span class="text-white font-semibold">&bull; Muxing Stream Resolusi Tinggi:</span> YouTube menyimpan video 1080p/4K dan audio dalam stream terpisah. Engine secara otomatis mendownload keduanya lalu menggabungkannya ke MP4 melalui FFmpeg lokal.</div>
-            <div><span class="text-white font-semibold">&bull; Post-Processor Audio:</span> URL musik atau podcast otomatis diekstrak langsung ke format MP3 192 kbps menggunakan modul internal `FFmpegExtractAudio`.</div>
-            <div><span class="text-white font-semibold">&bull; Real-Time UI Hooks:</span> Menghitung persentase progres biner, kecepatan unduh aktual (MB/s), serta perkiraan waktu selesai (ETA) secara live.</div>
-          </div>
-        </article>
-      </section>
-
-      <!-- Section: OS Compatibility Matrix -->
-      <section id="matriks-os" class="border border-[#30363d] rounded-md bg-[#161b22] overflow-hidden mb-12">
-        <div class="px-5 py-3 border-b border-[#21262d] bg-[#0d1117] flex items-center justify-between">
-          <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-white">Matriks Kompatibilitas Sistem Operasi</h3>
-          <span class="text-[11px] font-mono text-[#8b949e]">Cross-Platform Blueprint</span>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs font-mono border-collapse">
-            <thead>
-              <tr class="border-b border-[#21262d] text-[#8b949e] bg-[#161b22]">
-                <th class="px-5 py-3">Komponen Arsitektur</th>
-                <th class="px-5 py-3">Windows (x64)</th>
-                <th class="px-5 py-3">Linux (x86_64)</th>
-                <th class="px-5 py-3">macOS (Universal)</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-[#21262d]">
-              <tr>
-                <td class="px-5 py-3 text-[#8b949e]">Target Format Distribusi</td>
-                <td class="px-5 py-3 text-white">Portable .EXE</td>
-                <td class="px-5 py-3 text-white">.AppImage / Standalone</td>
-                <td class="px-5 py-3 text-white">.DMG / .app Bundle</td>
-              </tr>
-              <tr>
-                <td class="px-5 py-3 text-[#8b949e]">Kebutuhan FFmpeg</td>
-                <td class="px-5 py-3 text-white">Bundled `ffmpeg.exe`</td>
-                <td class="px-5 py-3 text-white">Paket Sistem (`apt install ffmpeg`)</td>
-                <td class="px-5 py-3 text-white">Paket Homebrew / Bundled</td>
-              </tr>
-              <tr>
-                <td class="px-5 py-3 text-[#8b949e]">Engine Dokumen Office</td>
-                <td class="px-5 py-3 text-white">MS Office COM Dispatch</td>
-                <td class="px-5 py-3 text-white">LibreOffice Headless (`soffice`)</td>
-                <td class="px-5 py-3 text-white">LibreOffice Headless (`soffice`)</td>
-              </tr>
-              <tr>
-                <td class="px-5 py-3 text-[#8b949e]">Panggilan File Explorer</td>
-                <td class="px-5 py-3 text-[#79c0ff]">os.startfile(dir)</td>
-                <td class="px-5 py-3 text-[#79c0ff]">xdg-open [dir]</td>
-                <td class="px-5 py-3 text-[#79c0ff]">open [dir]</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Section: Verification & Troubleshooting -->
-      <section id="verifikasi" class="space-y-6 mb-12">
-        <div class="border border-[#30363d] rounded-md bg-[#161b22] p-6 text-xs font-mono">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-white">Verifikasi Integritas Binary</h3>
-            <span class="text-[11px] text-[#8b949e]" id="verify-platform-tag">Windows PowerShell</span>
-          </div>
-          <p class="text-[#8b949e] mb-3 leading-relaxed">
-            Lakukan verifikasi nilai checksum kriptografi SHA-256 berkas biner sebelum instalasi untuk memastikan integritas rilis:
-          </p>
-          
-          <div class="relative bg-[#0d1117] p-3 rounded border border-[#21262d] flex items-center justify-between mb-3">
-            <code id="cmd-verify" class="text-[#c9d1d9] select-all overflow-x-auto">Get-FileHash .\UniversalMediaSuite_Setup.exe -Algorithm SHA256</code>
-            <button onclick="copyCommand()" class="text-xs bg-[#21262d] hover:bg-[#30363d] text-white px-2.5 py-1 rounded transition ml-2 shrink-0">
-              Salin
-            </button>
-          </div>
-        </div>
-
-        <div id="troubleshooting" class="border border-[#30363d] rounded-md bg-[#161b22] p-6 text-xs">
-          <h3 class="text-xs font-mono font-bold uppercase tracking-wider text-white mb-3">Panduan Penanganan Galat Eksekusi (Troubleshooting)</h3>
-          
-          <div class="space-y-3 font-mono text-[11px] text-[#8b949e]">
-            <div class="border-b border-[#21262d] pb-2">
-              <span class="text-white font-semibold">1. Windows SmartScreen Block:</span>
-              <p class="mt-0.5">Peringatan muncul karena binary dikompilasi secara independen (belum ditandatangani sertifikat EV berbayar). Klik <em class="text-white">"More info"</em> lalu pilih <em class="text-white">"Run anyway"</em>.</p>
-            </div>
-            <div class="border-b border-[#21262d] pb-2">
-              <span class="text-white font-semibold">2. Izin Eksekusi Linux (AppImage):</span>
-              <p class="mt-0.5">Jika file AppImage tidak merespons klik ganda, buka terminal di folder tersebut lalu jalankan: <code class="text-[#79c0ff]">chmod +x ./UniversalMediaSuite.AppImage</code>.</p>
-            </div>
-            <div>
-              <span class="text-white font-semibold">3. macOS Gatekeeper Quarantine:</span>
-              <p class="mt-0.5">Jika sistem macOS menampilkan pesan <em>"App is damaged and cannot be opened"</em>, hapus atribut karantina via Terminal: <code class="text-[#79c0ff]">xattr -cr /Applications/UniversalMediaSuite.app</code>.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
+    <!-- ═══════════════ FAQ ═══════════════ -->
+    <section class="max-w-3xl mx-auto mb-16">
+      <h2 class="text-sm font-mono font-bold uppercase tracking-wider text-white text-center mb-6" data-i18n="faq.title">Pertanyaan Umum</h2>
+      <div class="space-y-3 text-xs">
+        <details class="border border-[#30363d] rounded-lg bg-[#161b22] group">
+          <summary class="px-5 py-4 font-semibold text-white font-mono text-[12px] flex justify-between items-center">
+            <span data-i18n="faq.1.q">Apakah aplikasi membutuhkan koneksi internet?</span>
+            <span class="text-[#8b949e] group-open:rotate-45 transition">＋</span>
+          </summary>
+          <p class="px-5 pb-4 text-[#8b949e] leading-relaxed" data-i18n="faq.1.a">Hanya untuk modul Media Downloader. Konversi foto, video, audio, dan dokumen berjalan sepenuhnya offline.</p>
+        </details>
+        <details class="border border-[#30363d] rounded-lg bg-[#161b22] group">
+          <summary class="px-5 py-4 font-semibold text-white font-mono text-[12px] flex justify-between items-center">
+            <span data-i18n="faq.2.q">Mengapa versi Linux/macOS perlu FFmpeg tambahan?</span>
+            <span class="text-[#8b949e] group-open:rotate-45 transition">＋</span>
+          </summary>
+          <p class="px-5 pb-4 text-[#8b949e] leading-relaxed" data-i18n="faq.2.a">Untuk menjaga ukuran binary tetap kecil, FFmpeg pada Linux/macOS diambil dari sistem. Windows sudah menyertakan FFmpeg.</p>
+        </details>
+        <details class="border border-[#30363d] rounded-lg bg-[#161b22] group">
+          <summary class="px-5 py-4 font-semibold text-white font-mono text-[12px] flex justify-between items-center">
+            <span data-i18n="faq.3.q">Apakah data saya dikirim ke server?</span>
+            <span class="text-[#8b949e] group-open:rotate-45 transition">＋</span>
+          </summary>
+          <p class="px-5 pb-4 text-[#8b949e] leading-relaxed" data-i18n="faq.3.a">Tidak. Seluruh proses berjalan lokal di perangkat Anda, kecuali Anda aktif mengunduh dari internet melalui modul downloader.</p>
+        </details>
+        <details class="border border-[#30363d] rounded-lg bg-[#161b22] group">
+          <summary class="px-5 py-4 font-semibold text-white font-mono text-[12px] flex justify-between items-center">
+            <span data-i18n="faq.4.q">Bagaimana cara memperbarui aplikasi?</span>
+            <span class="text-[#8b949e] group-open:rotate-45 transition">＋</span>
+          </summary>
+          <p class="px-5 pb-4 text-[#8b949e] leading-relaxed" data-i18n="faq.4.a">Unduh rilis terbaru dari halaman ini — tautan unduhan selalu mengarah ke rilis terbaru di GitHub Releases.</p>
+        </details>
+      </div>
+    </section>
   </div>
 
-  <!-- Industrial Footer -->
-  <footer class="border-t border-[#21262d] bg-[#0d1117] py-8 text-xs font-mono text-[#8b949e]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <div>Universal Media & Document Suite &bull; Distribution & Documentation Portal</div>
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="border-t border-[#21262d] bg-[#0d1117] py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs font-mono text-[#8b949e]">
+      <div class="text-center sm:text-left">
+        <div class="text-white font-semibold" data-i18n="footer.tagline">Media, dokumen, dan unduhan dalam satu aplikasi desktop — lokal dan aman.</div>
+        <div class="mt-1" data-i18n="footer.rights">© 2026 Universal Media &amp; Document Suite. Hak cipta dilindungi.</div>
+      </div>
       <div class="flex items-center gap-4">
-        <span class="inline-flex items-center gap-1.5 text-white">
-          <span class="w-2 h-2 rounded-full bg-[#238636]"></span>
-          Local-First Engine
-        </span>
-        <span>&bull;</span>
-        <span>Zero External Tracking</span>
+        <span class="inline-flex items-center gap-1.5 text-white"><span class="w-2 h-2 rounded-full bg-[#238636]"></span><span data-i18n="footer.engine">Local-First Engine</span></span>
+        <span class="text-[#30363d]">•</span>
+        <span data-i18n="footer.track">Zero External Tracking</span>
       </div>
     </div>
   </footer>
 
-  <!-- Script Platform Selector & Interactive Logic -->
+  <script src="js/i18n.js"></script>
   <script>
-    const platformData = {
+    var PLATFORMS = {
       win: {
-        file: 'https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite_Setup.exe',
-        label: 'Download .EXE',
-        spec: 'Windows 10 / 11 (64-bit Architecture)',
-        cmd: 'Get-FileHash .\\UniversalMediaSuite_Setup.exe -Algorithm SHA256',
-        tag: 'Windows PowerShell'
+        url: "https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite_Setup.exe",
+        cmd: "Get-FileHash .\\UniversalMediaSuite_Setup.exe -Algorithm SHA256",
+        tag: "Windows PowerShell"
       },
       linux: {
-        file: 'https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite.AppImage',
-        label: 'Download .AppImage',
-        spec: 'Linux x86_64 (glibc 2.31+)',
-        cmd: 'sha256sum ./UniversalMediaSuite.AppImage && chmod +x ./UniversalMediaSuite.AppImage',
-        tag: 'Linux Bash / Terminal'
+        url: "https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite.AppImage",
+        cmd: "sha256sum ./UniversalMediaSuite.AppImage && chmod +x ./UniversalMediaSuite.AppImage",
+        tag: "Linux Bash / Terminal"
       },
       mac: {
-        file: 'https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite.dmg',
-        label: 'Download .DMG',
-        spec: 'macOS 12+ (Apple Silicon & Intel x64)',
-        cmd: 'shasum -a 256 ./UniversalMediaSuite.dmg',
-        tag: 'macOS Terminal'
+        url: "https://github.com/zidan-herlangga/universal-media-suite/releases/latest/download/UniversalMediaSuite.dmg",
+        cmd: "shasum -a 256 ./UniversalMediaSuite.dmg",
+        tag: "macOS Terminal"
       }
     };
 
+    var currentPlatform = "win";
+
     function setPlatform(os) {
-      ['win', 'linux', 'mac'].forEach(k => {
-        const tab = document.getElementById('tab-' + k);
-        if (k === os) {
-          tab.className = 'py-1 rounded bg-[#21262d] text-white font-semibold transition';
+      currentPlatform = os;
+      var keys = ["win", "linux", "mac"];
+      for (var i = 0; i < keys.length; i++) {
+        var tab = document.getElementById("tab-" + keys[i]);
+        if (keys[i] === os) {
+          tab.className = "py-2 rounded bg-[#21262d] text-white font-semibold transition";
         } else {
-          tab.className = 'py-1 rounded text-[#8b949e] hover:text-white transition';
+          tab.className = "py-2 rounded text-[#8b949e] hover:text-white transition";
         }
-      });
-
-      const d = platformData[os];
-      document.getElementById('btn-download').href = d.file;
-      document.getElementById('label-download').innerText = d.label;
-      document.getElementById('target-spec').innerText = d.spec;
-      document.getElementById('cmd-verify').innerText = d.cmd;
-      document.getElementById('verify-platform-tag').innerText = d.tag;
-    }
-
-    function copyCommand() {
-      const codeText = document.getElementById('cmd-verify').innerText;
-      navigator.clipboard.writeText(codeText).then(() => {
-        alert('Perintah verifikasi SHA-256 berhasil disalin ke clipboard.');
-      });
-    }
-
-    function toggleSidebar() {
-      const sb = document.getElementById('sidebar');
-      sb.classList.toggle('hidden');
-    }
-
-    // Auto-detect OS Pengunjung saat halaman dimuat
-    window.addEventListener('DOMContentLoaded', () => {
-      const ua = navigator.userAgent.toLowerCase();
-      if (ua.includes('mac')) {
-        setPlatform('mac');
-      } else if (ua.includes('linux')) {
-        setPlatform('linux');
-      } else {
-        setPlatform('win');
       }
+      document.getElementById("btn-download").href = PLATFORMS[os].url;
+      document.getElementById("label-download").textContent = window.UMS.t("dl.btn." + os);
+      document.getElementById("dl-spec").textContent = window.UMS.t("dl." + os + ".spec");
+      document.getElementById("dl-size").textContent = window.UMS.t("dl." + os + ".size");
+      document.getElementById("inline-cmd").textContent = PLATFORMS[os].cmd;
+      document.getElementById("verify-tag").textContent = PLATFORMS[os].tag;
+    }
+
+    function copyChecksum() {
+      var text = document.getElementById("inline-cmd").textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        alert(window.UMS.t("verify.copied"));
+      });
+    }
+
+    window.addEventListener("langchange", function () {
+      setPlatform(currentPlatform);
+    });
+
+    window.addEventListener("DOMContentLoaded", function () {
+      var ua = navigator.userAgent.toLowerCase();
+      var detected = "win";
+      if (ua.indexOf("mac") !== -1) detected = "mac";
+      else if (ua.indexOf("linux") !== -1) detected = "linux";
+      setPlatform(detected);
+      setPlatform(detected); // rebuild labels after i18n init
     });
   </script>
 </body>
