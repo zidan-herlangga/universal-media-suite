@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zidan-herlangga.github.io/universal-media-suite/sitemap.xml

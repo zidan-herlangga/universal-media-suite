@@ -183,7 +183,11 @@
       "dverify.desc": "Bandingkan nilai SHA-256 berkas yang Anda unduh dengan yang diterbitkan pada rilis.",
 
       "dhelp.title": "Pemecahan Masalah",
-      "dhelp.subtitle": "Panduan lengkap mengatasi galat eksekusi di setiap platform."
+      "dhelp.subtitle": "Panduan lengkap mengatasi galat eksekusi di setiap platform.",
+
+      "err.404.title": "404 — Halaman tidak ditemukan",
+      "err.404.desc": "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
+      "err.404.home": "Kembali ke Beranda"
     },
 
     en: {
@@ -367,7 +371,11 @@
       "dverify.desc": "Compare the SHA-256 of the file you downloaded with the one published in the release.",
 
       "dhelp.title": "Troubleshooting",
-      "dhelp.subtitle": "Complete guide to execution errors on every platform."
+      "dhelp.subtitle": "Complete guide to execution errors on every platform.",
+
+      "err.404.title": "404 — Page not found",
+      "err.404.desc": "The page you are looking for does not exist or has been moved.",
+      "err.404.home": "Back to Home"
     }
   };
 

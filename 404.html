@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Universal Media &amp; Document Suite</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0d1117" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link rel="apple-touch-icon" href="assets/favicon-180.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #090d13; }
+    ::-webkit-scrollbar-thumb { background: #21262d; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #30363d; }
+  </style>
+</head>
+<body class="bg-[#090d13] text-[#c9d1d9] font-sans antialiased selection:bg-[#1f6feb] selection:text-white min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="border-b border-[#21262d] bg-[#0d1117]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2.5">
+        <span class="w-2 h-2 rounded-sm bg-[#58a6ff] shadow-[0_0_8px_#58a6ff]"></span>
+        <span class="font-mono font-bold text-white text-sm tracking-tight">ums-suite</span>
+      </a>
+      <div class="flex items-center gap-3">
+        <nav class="hidden sm:flex items-center gap-1 text-sm">
+          <a href="index.html" class="px-3 py-1.5 rounded-md text-[#8b949e] hover:text-white transition-colors" data-i18n="nav.home">Beranda</a>
+          <a href="docs.html" class="px-3 py-1.5 rounded-md text-[#8b949e] hover:text-white transition-colors" data-i18n="nav.docs">Dokumentasi</a>
+          <a href="index.html#download" class="px-3 py-1.5 rounded-md text-[#8b949e] hover:text-white transition-colors" data-i18n="nav.download">Unduh</a>
+        </nav>
+        <div class="flex items-center rounded-full border border-[#21262d] bg-[#090d13] p-0.5">
+          <button class="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium transition-colors" data-lang-btn="id">ID</button>
+          <button class="px-2.5 py-0.5 rounded-full text-xs font-mono font-medium transition-colors" data-lang-btn="en">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-1 flex items-center justify-center px-4">
+    <div class="text-center max-w-lg">
+      <div class="text-8xl font-mono font-bold text-[#21262d] select-none mb-4">404</div>
+      <h1 class="text-2xl sm:text-3xl font-semibold text-white mb-3" data-i18n="err.404.title">404 — Halaman tidak ditemukan</h1>
+      <p class="text-[#8b949e] mb-8 leading-relaxed" data-i18n="err.404.desc">Halaman yang Anda cari tidak ada atau telah dipindahkan.</p>
+      <a href="index.html" class="inline-flex items-center gap-2 bg-[#1f6feb] hover:bg-[#388bfd] text-white font-medium px-6 py-3 rounded-lg transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        <span data-i18n="err.404.home">Kembali ke Beranda</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-[#21262d] bg-[#0d1117] py-6">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center text-sm text-[#6e7681]">
+      <p data-i18n="footer.rights">© 2026 Universal Media &amp; Document Suite. Hak cipta dilindungi.</p>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+</body>
+</html>
