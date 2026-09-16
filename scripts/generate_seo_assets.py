@@ -70,7 +70,7 @@ def make_og():
     draw.text((124, 84), "ums-suite", font=f_mono, fill=white)
     draw.text((124, 116), URL, font=f_url, fill=muted)
 
-    badge = "RILIS RESMI v1.0.0"
+    badge = "RILIS RESMI v2.0.0"
     bb = draw.textbbox((0, 0), badge, font=f_badge)
     bx, by, bx2, by2 = bb
     bw, bh = bx2 - bx, by2 - by

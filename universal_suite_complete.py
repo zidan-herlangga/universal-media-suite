@@ -5,6 +5,7 @@ import subprocess
 import sys
 import threading
 from collections import Counter
+from io import BytesIO
 from tkinter import filedialog, messagebox
 import customtkinter as ctk
 
@@ -41,6 +42,27 @@ except ImportError:
   HAS_PDF2DOCX = False
 
 try:
+  import pymupdf as fitz  # PyMuPDF modern (render halaman PDF jadi gambar)
+
+  HAS_FITZ = True
+except ImportError:
+  try:
+    import fitz  # PyMuPDF lama
+
+    HAS_FITZ = True
+  except ImportError:
+    HAS_FITZ = False
+
+try:
+  from docx import Document as DocxDocument
+  from docx.enum.section import WD_SECTION
+  from docx.shared import Mm
+
+  HAS_DOCX = True
+except ImportError:
+  HAS_DOCX = False
+
+try:
   from pypdf import PdfReader, PdfWriter
 
   HAS_PYPDF = True
@@ -68,10 +90,11 @@ def get_ffmpeg_binary():
   for base in (bundle_dir, os.path.dirname(os.path.abspath(sys.executable))):
     if not base:
       continue
-    for name in ("ffmpeg.exe", "ffmpeg"):
-      p = os.path.join(base, name)
-      if os.path.exists(p):
-        return p
+    for root in (base, os.path.join(base, "_internal")):
+      for name in ("ffmpeg.exe", "ffmpeg"):
+        p = os.path.join(root, name)
+        if os.path.exists(p):
+          return p
   return shutil.which("ffmpeg")
 
 
@@ -1090,6 +1113,7 @@ class DocumentTab(ctk.CTkFrame):
     )
     self.folder_output = ctk.StringVar()
     self.target_format = ctk.StringVar()
+    self.pdf_mode_var = ctk.StringVar(value="Visual (Gambar per Halaman)")
 
     self.merge_files = []
     self.split_file = ctk.StringVar(value="Seret file PDF ke sini...")
@@ -1188,8 +1212,27 @@ class DocumentTab(ctk.CTkFrame):
         values=["Pilih Dokumen Dulu"],
         state="disabled",
         height=32,
+        command=self.on_target_format_change,
     )
-    self.cb_fmt.pack(fill="x", padx=12, pady=(0, 10))
+    self.cb_fmt.pack(fill="x", padx=12, pady=(0, 4))
+
+    f_pdf_mode = ctk.CTkFrame(card_opt, fg_color="transparent")
+    f_pdf_mode.pack(fill="x", padx=12, pady=(0, 10))
+    ctk.CTkLabel(
+        f_pdf_mode,
+        text="Mode PDF→DOCX:",
+        font=ctk.CTkFont(size=12, weight="bold"),
+        text_color="#94a3b8",
+    ).pack(side="left", padx=(0, 8))
+    self.cb_pdf_mode = ctk.CTkOptionMenu(
+        f_pdf_mode,
+        variable=self.pdf_mode_var,
+        values=["Visual (Gambar per Halaman)", "Teks (Editable)"],
+        state="disabled",
+        width=240,
+        height=32,
+    )
+    self.cb_pdf_mode.pack(side="left")
 
     self.lbl_conv_status = ctk.CTkLabel(
         tab_conv,
@@ -1326,8 +1369,19 @@ class DocumentTab(ctk.CTkFrame):
       self.lbl_conv_status.configure(
           text=f"File terpilih: .{ext.upper()}", text_color="#38bdf8"
       )
+      self._update_pdf_mode_state(ext)
     else:
       messagebox.showerror("Error", f"Format .{ext} belum didukung.")
+
+  def on_target_format_change(self, val):
+    ext = os.path.splitext(self.file_input.get())[1].lower().replace(".", "")
+    self._update_pdf_mode_state(ext)
+
+  def _update_pdf_mode_state(self, src_ext):
+    if src_ext == "pdf" and self.target_format.get().lower() == "docx":
+      self.cb_pdf_mode.configure(state="normal")
+    else:
+      self.cb_pdf_mode.configure(state="disabled")
 
   def on_drop_merge(self, event):
     paths = parse_dnd_paths(event.data)
@@ -1390,11 +1444,20 @@ class DocumentTab(ctk.CTkFrame):
     try:
       # Jalur 1: PDF ke DOCX atau TXT (Pustaka murni)
       if src_ext == "pdf":
-        if t_fmt == "docx" and HAS_PDF2DOCX:
-          cv = PdfToDocxConverter(src)
-          cv.convert(dest, start=0, end=None)
-          cv.close()
-          success = True
+        if t_fmt == "docx":
+          if self.pdf_mode_var.get() == "Visual (Gambar per Halaman)":
+            self._convert_pdf_visual(src, dest)
+            success = os.path.exists(dest)
+          elif HAS_PDF2DOCX:
+            cv = PdfToDocxConverter(src)
+            cv.convert(dest, start=0, end=None)
+            cv.close()
+            success = True
+          else:
+            messagebox.showerror(
+                "Pustaka Hilang",
+                "Library pdf2docx tidak tersedia. Jalankan: pip install pdf2docx",
+            )
         elif t_fmt == "txt" and HAS_PYPDF:
           reader = PdfReader(src)
           txt = "\n\n".join(
@@ -1478,6 +1541,44 @@ class DocumentTab(ctk.CTkFrame):
       messagebox.showerror("Error", str(ex))
     finally:
       self.btn_conv.configure(state="normal")
+
+  def _convert_pdf_visual(self, src, dest):
+    """Render tiap halaman PDF menjadi gambar dan sisipkan ke DOCX (hasil persis)."""
+    if not HAS_FITZ or not HAS_DOCX:
+      raise RuntimeError(
+          "Mode Visual membutuhkan PyMuPDF & python-docx.\nBila sudah ada, gunakan Mode Teks (Editable)."
+      )
+    zoom = 2.0  # ~144 DPI: tajam & muat di halaman A4 tanpa perlu margin 0 rapi
+    dpi_mm = 72.0 * zoom
+
+    pdf_doc = fitz.open(src)
+    if pdf_doc.page_count == 0:
+      pdf_doc.close()
+      raise RuntimeError("PDF tidak memiliki halaman.")
+
+    docx_doc = DocxDocument()
+    sec0 = docx_doc.sections[0]
+    for m in ("left_margin", "right_margin", "top_margin", "bottom_margin"):
+      setattr(sec0, m, Mm(0))
+
+    for i, page in enumerate(pdf_doc):
+      pix = page.get_pixmap(matrix=fitz.Matrix(zoom, zoom), alpha=True)
+      page_w_mm = pix.width / dpi_mm * 25.4
+      page_h_mm = pix.height / dpi_mm * 25.4
+
+      if i == 0:
+        sec = sec0
+      else:
+        sec = docx_doc.add_section(WD_SECTION.NEW_PAGE)
+      sec.page_width = Mm(page_w_mm)
+      sec.page_height = Mm(page_h_mm)
+      for m in ("left_margin", "right_margin", "top_margin", "bottom_margin"):
+        setattr(sec, m, Mm(0))
+      run = docx_doc.add_paragraph().add_run()
+      run.add_picture(BytesIO(pix.tobytes("png")), width=Mm(page_w_mm))
+
+    pdf_doc.close()
+    docx_doc.save(dest)
 
   def select_merge_files(self):
     files = filedialog.askopenfilenames(
@@ -1820,6 +1921,7 @@ class DownloaderTab(ctk.CTkFrame):
     ydl_opts = {
         "outtmpl": out_template,
         "progress_hooks": [self._progress_hook],
+        "noplaylist": True,
         "quiet": True,
         "no_warnings": True,
     }

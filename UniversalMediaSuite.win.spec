@@ -12,7 +12,7 @@ for pkg in ("customtkinter", "tkinterdnd2", "pdf2docx", "rawpy", "pillow_heif"):
     binaries += b
     hiddenimports += h
 
-hiddenimports += ["yt_dlp", "pypdf", "fitz", "docx", "lxml"]
+hiddenimports += ["yt_dlp", "pypdf", "fitz", "pymupdf", "docx", "lxml"]
 
 a = Analysis(
     ["universal_suite_complete.py"],
@@ -35,14 +35,22 @@ pyz = PYZ(a.pure)
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
-    name="UniversalMediaSuite_Setup",
+    exclude_binaries=True,
+    name="UniversalMediaSuite",
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
     upx=False,
     console=False,
     disable_windowed_traceback=False,
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    strip=False,
+    upx=False,
+    name="UniversalMediaSuite",
 )

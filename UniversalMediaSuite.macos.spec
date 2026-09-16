@@ -11,7 +11,7 @@ for pkg in ("customtkinter", "tkinterdnd2", "pdf2docx", "rawpy", "pillow_heif"):
     binaries += b
     hiddenimports += h
 
-hiddenimports += ["yt_dlp", "pypdf", "fitz", "docx", "lxml"]
+hiddenimports += ["yt_dlp", "pypdf", "fitz", "pymupdf", "docx", "lxml"]
 
 a = Analysis(
     ["universal_suite_complete.py"],
